@@ -24,10 +24,6 @@ import java.io.ByteArrayOutputStream
 import java.security.MessageDigest
 import java.util.*
 
-plugins {
-    id("com.android.application")
-}
-
 val moduleName = "LSPosed"
 val moduleBaseId = "lsposed"
 val authors = "LSPosed Developers"

@@ -17,10 +17,6 @@
  * Copyright (C) 2021 - 2022 LSPosed Contributors
  */
 
-plugins {
-    id("com.android.library")
-}
-
 android {
     defaultConfig {
         consumerProguardFiles("proguard-rules.pro")

@@ -17,10 +17,6 @@
  * Copyright (C) 2022 LSPosed Contributors
  */
 
-plugins {
-    id("com.android.library")
-}
-
 val apiCode: Int by rootProject.extra
 
 android {
