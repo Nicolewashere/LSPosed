@@ -19,8 +19,6 @@
 
 package org.lsposed.lspd.core;
 
-import static org.lsposed.lspd.core.Startup.forkPostCommon;
-
 import android.os.Environment;
 import android.os.IBinder;
 
@@ -35,17 +33,19 @@ public class Main {
 
     public static void forkAndSpecializePost(String appDataDir, String niceName, IBinder binder) {
         LSPApplicationServiceClient.Init(binder, niceName);
+        Startup.initXposed(false, appDataDir, niceName);
         if ((niceName.equals(BuildConfig.MANAGER_INJECTED_PKG_NAME) || niceName.equals(BuildConfig.DEFAULT_MANAGER_PACKAGE_NAME))
                 && ParasiticManagerHooker.start()) {
             Utils.logI("Loaded manager, skipping next steps");
             return;
         }
-        forkPostCommon(false, appDataDir, niceName);
+        Startup.bootstrapXposed(false, appDataDir, niceName);
     }
 
     public static void forkSystemServerPost(IBinder binder) {
         LSPApplicationServiceClient.Init(binder, "android");
-        forkPostCommon(true,
-                new File(Environment.getDataDirectory(), "android").toString(), "system_server");
+        var appDataDir = new File(Environment.getDataDirectory(), "android").toString();
+        Startup.initXposed(true, appDataDir, "system_server");
+        Startup.bootstrapXposed(true, appDataDir, "system_server");
     }
 }

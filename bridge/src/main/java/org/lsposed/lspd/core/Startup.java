@@ -15,7 +15,7 @@
  * along with LSPosed.  If not, see <https://www.gnu.org/licenses/>.
  *
  * Copyright (C) 2020 EdXposed Contributors
- * Copyright (C) 2021 LSPosed Contributors
+ * Copyright (C) 2021 - 2022 LSPosed Contributors
  */
 
 package org.lsposed.lspd.core;
@@ -40,7 +40,7 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.XposedInit;
 
 public class Startup {
-    public static void startBootstrapHook(boolean isSystem, String appDataDir) {
+    private static void startBootstrapHook(boolean isSystem, String appDataDir) {
         Utils.logD("startBootstrapHook starts: isSystem = " + isSystem);
         XposedHelpers.findAndHookMethod(Thread.class, "dispatchUncaughtException",
                 Throwable.class, new CrashDumpHooker());
@@ -58,22 +58,21 @@ public class Startup {
                 new LoadedApkCstrHooker());
     }
 
-    private static void installBootstrapHooks(boolean isSystem, String appDataDir) {
+    public static void bootstrapXposed(boolean isSystem, String appDataDir, String niceName) {
         // Initialize the Xposed framework
         try {
             startBootstrapHook(isSystem, appDataDir);
+            Utils.logI("Loading modules for " + niceName + "/" + Process.myUid());
+            XposedInit.loadModules();
         } catch (Throwable t) {
             Utils.logE("error during Xposed initialization", t);
         }
     }
 
-    public static void forkPostCommon(boolean isSystem, String appDataDir, String niceName) {
+    public static void initXposed(boolean isSystem, String appDataDir, String niceName) {
         // init logger
         XposedBridge.initXResources();
         XposedInit.startsSystemServer = isSystem;
         PrebuiltMethodsDeopter.deoptBootMethods(); // do it once for secondary zygote
-        installBootstrapHooks(isSystem, appDataDir);
-        Utils.logI("Loading modules for " + niceName + "/" + Process.myUid());
-        XposedInit.loadModules();
     }
 }

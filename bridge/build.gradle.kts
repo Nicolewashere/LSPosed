@@ -22,28 +22,15 @@ plugins {
 }
 
 val apiCode: Int by rootProject.extra
-val verCode: Int by rootProject.extra
-val verName: String by rootProject.extra
-
-val androidTargetSdkVersion: Int by rootProject.extra
-val androidMinSdkVersion: Int by rootProject.extra
-val androidBuildToolsVersion: String by rootProject.extra
-val androidCompileSdkVersion: Int by rootProject.extra
-val androidSourceCompatibility: JavaVersion by rootProject.extra
-val androidTargetCompatibility: JavaVersion by rootProject.extra
 
 android {
     namespace = "org.lsposed.bridge"
-    compileSdk = androidCompileSdkVersion
-    buildToolsVersion = androidBuildToolsVersion
 
     buildFeatures {
         androidResources = false
     }
 
     defaultConfig {
-        minSdk = androidMinSdkVersion
-        targetSdk = androidTargetSdkVersion
         consumerProguardFiles("proguard-rules.pro")
 
         buildConfigField("int", "API_CODE", "$apiCode")
@@ -54,11 +41,6 @@ android {
             isMinifyEnabled = true
             proguardFiles("proguard-rules.pro")
         }
-    }
-
-    compileOptions {
-        targetCompatibility(androidTargetCompatibility)
-        sourceCompatibility(androidSourceCompatibility)
     }
 }
 

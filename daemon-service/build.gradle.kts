@@ -14,26 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with LSPosed.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (C) 2021 LSPosed Contributors
+ * Copyright (C) 2021 - 2022 LSPosed Contributors
  */
 
 plugins {
     id("com.android.library")
 }
 
-val androidTargetSdkVersion: Int by rootProject.extra
-val androidBuildToolsVersion: String by rootProject.extra
-val androidMinSdkVersion: Int by rootProject.extra
-val androidSourceCompatibility: JavaVersion by rootProject.extra
-val androidTargetCompatibility: JavaVersion by rootProject.extra
-
 android {
-    compileSdk = androidTargetSdkVersion
-    buildToolsVersion = androidBuildToolsVersion
-
     defaultConfig {
-        minSdk = androidMinSdkVersion
-        targetSdk = androidTargetSdkVersion
         consumerProguardFiles("proguard-rules.pro")
     }
 
@@ -41,11 +30,6 @@ android {
         release {
             isMinifyEnabled = false
         }
-    }
-
-    compileOptions {
-        sourceCompatibility = androidSourceCompatibility
-        targetCompatibility = androidTargetCompatibility
     }
 
     aidlPackagedList += "org/lsposed/lspd/models/Module.aidl"
