@@ -40,7 +40,7 @@ import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.XposedInit;
 
 public class Startup {
-    private static void startBootstrapHook(boolean isSystem, String appDataDir) {
+    private static void startBootstrapHook(boolean isSystem) {
         Utils.logD("startBootstrapHook starts: isSystem = " + isSystem);
         XposedHelpers.findAndHookMethod(Thread.class, "dispatchUncaughtException",
                 Throwable.class, new CrashDumpHooker());
@@ -51,17 +51,17 @@ public class Startup {
         XposedHelpers.findAndHookMethod(ActivityThread.class,
                 "handleBindApplication",
                 "android.app.ActivityThread$AppBindData",
-                new HandleBindAppHooker(appDataDir));
+                new HandleBindAppHooker());
         XposedHelpers.findAndHookConstructor(LoadedApk.class,
                 ActivityThread.class, ApplicationInfo.class, CompatibilityInfo.class,
                 ClassLoader.class, boolean.class, boolean.class, boolean.class,
                 new LoadedApkCstrHooker());
     }
 
-    public static void bootstrapXposed(boolean isSystem, String appDataDir, String niceName) {
+    public static void bootstrapXposed(boolean isSystem, String niceName) {
         // Initialize the Xposed framework
         try {
-            startBootstrapHook(isSystem, appDataDir);
+            startBootstrapHook(isSystem);
             Utils.logI("Loading modules for " + niceName + "/" + Process.myUid());
             XposedInit.loadModules();
         } catch (Throwable t) {

@@ -19,15 +19,12 @@
 
 package org.lsposed.lspd.core;
 
-import android.os.Environment;
 import android.os.IBinder;
 
 import org.lsposed.lspd.BuildConfig;
 import org.lsposed.lspd.config.LSPApplicationServiceClient;
 import org.lsposed.lspd.util.ParasiticManagerHooker;
 import org.lsposed.lspd.util.Utils;
-
-import java.io.File;
 
 public class Main {
 
@@ -39,12 +36,12 @@ public class Main {
             Utils.logI("Loaded manager, skipping next steps");
             return;
         }
-        Startup.bootstrapXposed(false, appDataDir, niceName);
+        Startup.bootstrapXposed(false, niceName);
     }
 
     public static void forkSystemServerPost(IBinder binder) {
         LSPApplicationServiceClient.Init(binder, "android");
         Startup.initXposed(true);
-        Startup.bootstrapXposed(true, new File(Environment.getDataDirectory(), "android").toString(), "system_server");
+        Startup.bootstrapXposed(true, "system_server");
     }
 }
