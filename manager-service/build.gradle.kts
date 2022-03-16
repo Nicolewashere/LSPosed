@@ -30,5 +30,5 @@ android {
 }
 
 dependencies {
-    api(project(":interface"))
+    api(projects.`interface`)
 }
