@@ -36,7 +36,6 @@ namespace lspd {
         std::string magiskPath;
 
         jstring nice_name = nullptr;
-        jstring app_data_dir = nullptr;
 
         void onModuleLoaded() {
             LOGI("onModuleLoaded: welcome to LSPosed!");
@@ -57,11 +56,10 @@ namespace lspd {
                                         jboolean *,
                                         jboolean *) {
             nice_name = *_nice_name;
-            app_data_dir = *_app_data_dir;
             MagiskLoader::GetInstance()->OnNativeForkAndSpecializePre(env, *_uid, *gids,
                                                                  nice_name,
                                                                  *start_child_zygote,
-                                                                 app_data_dir);
+                                                                 *_app_data_dir);
         }
 
         void nativeForkAndSpecializePost(JNIEnv *env, jclass, jint res) {
@@ -93,15 +91,14 @@ namespace lspd {
                                      jboolean *,
                                      jboolean *) {
             nice_name = *_nice_name;
-            app_data_dir = *_app_data_dir;
             MagiskLoader::GetInstance()->OnNativeForkAndSpecializePre(env, *_uid, *gids,
                                                                  nice_name,
                                                                  *start_child_zygote,
-                                                                 app_data_dir);
+                                                                 *_app_data_dir);
         }
 
         void specializeAppProcessPost(JNIEnv *env, jclass) {
-            MagiskLoader::GetInstance()->OnNativeForkAndSpecializePost(env, nice_name, app_data_dir);
+            MagiskLoader::GetInstance()->OnNativeForkAndSpecializePost(env, nice_name);
         }
     }
 

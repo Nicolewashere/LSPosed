@@ -124,7 +124,7 @@ namespace lspd {
                 InitHooks(env, initInfo);
                 FindAndCall(env, "forkCommon",
                             "(ZLjava/lang/String;Landroid/os/IBinder;)V",
-                            JNI_TRUE, env->NewStringUTF("android"), application_binder);
+                            JNI_TRUE, JNI_NewStringUTF(env, "android"), application_binder);
                 GetArt(true);
             } else {
                 LOGI("skipped system server");
