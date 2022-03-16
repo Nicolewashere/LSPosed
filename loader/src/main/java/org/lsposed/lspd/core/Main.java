@@ -33,7 +33,7 @@ public class Main {
 
     public static void forkAndSpecializePost(String appDataDir, String niceName, IBinder binder) {
         LSPApplicationServiceClient.Init(binder, niceName);
-        Startup.initXposed(false, appDataDir, niceName);
+        Startup.initXposed(false);
         if ((niceName.equals(BuildConfig.MANAGER_INJECTED_PKG_NAME) || niceName.equals(BuildConfig.DEFAULT_MANAGER_PACKAGE_NAME))
                 && ParasiticManagerHooker.start()) {
             Utils.logI("Loaded manager, skipping next steps");
@@ -44,8 +44,7 @@ public class Main {
 
     public static void forkSystemServerPost(IBinder binder) {
         LSPApplicationServiceClient.Init(binder, "android");
-        var appDataDir = new File(Environment.getDataDirectory(), "android").toString();
-        Startup.initXposed(true, appDataDir, "system_server");
-        Startup.bootstrapXposed(true, appDataDir, "system_server");
+        Startup.initXposed(true);
+        Startup.bootstrapXposed(true, new File(Environment.getDataDirectory(), "android").toString(), "system_server");
     }
 }

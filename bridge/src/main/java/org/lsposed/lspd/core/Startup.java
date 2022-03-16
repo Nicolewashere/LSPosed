@@ -69,7 +69,7 @@ public class Startup {
         }
     }
 
-    public static void initXposed(boolean isSystem, String appDataDir, String niceName) {
+    public static void initXposed(boolean isSystem) {
         // init logger
         XposedBridge.initXResources();
         XposedInit.startsSystemServer = isSystem;
