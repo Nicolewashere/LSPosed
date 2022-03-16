@@ -63,8 +63,8 @@ tasks.register("Delete", Delete::class) {
 
 subprojects {
     when (path) {
-        ":app", ":core", ":daemon" -> apply(plugin = "com.android.application")
-        ":daemon-servie", ":manager-service", ":interface", ":service" -> apply(plugin = "com.android.library")
+        ":app", ":daemon", ":loader" -> apply(plugin = "com.android.application")
+        ":bridge", ":daemon-service", ":manager-service", ":interface", ":service" -> apply(plugin = "com.android.library")
     }
     extensions.findByType(BaseExtension::class)?.run {
         compileSdkVersion(androidCompileSdkVersion)
@@ -80,6 +80,7 @@ subprojects {
             externalNativeBuild {
                 cmake {
                     arguments += "-DEXTERNAL_ROOT=${File(rootDir.absolutePath, "external")}"
+                    arguments += "-DBRIDGE_ROOT=${File(rootDir.absolutePath, "bridge/src/main/jni")}"
                     abiFilters("arm64-v8a", "armeabi-v7a", "x86", "x86_64")
                     val flags = arrayOf(
                         "-Wall",

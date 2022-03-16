@@ -26,7 +26,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "LSPosed"
 include(
-    ":core",
+    ":bridge",
+    ":loader",
     ":hiddenapi:stubs",
     ":hiddenapi:bridge",
     ":app",
