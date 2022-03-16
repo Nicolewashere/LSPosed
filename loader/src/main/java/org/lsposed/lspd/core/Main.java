@@ -28,20 +28,14 @@ import org.lsposed.lspd.util.Utils;
 
 public class Main {
 
-    public static void forkAndSpecializePost(String appDataDir, String niceName, IBinder binder) {
+    public static void forkCommon(boolean isSystem, String niceName, IBinder binder) {
         LSPApplicationServiceClient.Init(binder, niceName);
-        Startup.initXposed(false);
+        Startup.initXposed(isSystem);
         if ((niceName.equals(BuildConfig.MANAGER_INJECTED_PKG_NAME) || niceName.equals(BuildConfig.DEFAULT_MANAGER_PACKAGE_NAME))
                 && ParasiticManagerHooker.start()) {
             Utils.logI("Loaded manager, skipping next steps");
             return;
         }
-        Startup.bootstrapXposed(false, niceName);
-    }
-
-    public static void forkSystemServerPost(IBinder binder) {
-        LSPApplicationServiceClient.Init(binder, "android");
-        Startup.initXposed(true);
-        Startup.bootstrapXposed(true, "system_server");
+        Startup.bootstrapXposed(isSystem, niceName);
     }
 }

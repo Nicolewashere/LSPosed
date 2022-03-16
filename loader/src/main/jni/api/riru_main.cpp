@@ -66,7 +66,7 @@ namespace lspd {
 
         void nativeForkAndSpecializePost(JNIEnv *env, jclass, jint res) {
             if (res == 0)
-                MagiskLoader::GetInstance()->OnNativeForkAndSpecializePost(env, nice_name, app_data_dir);
+                MagiskLoader::GetInstance()->OnNativeForkAndSpecializePost(env, nice_name);
         }
 
         void nativeForkSystemServerPre(JNIEnv *env, jclass, uid_t *, gid_t *,
